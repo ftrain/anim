@@ -1,8 +1,16 @@
+
 # anim
 
 You can see this in operation at:
 
   http://ftrain.github.io/anim/
+
+It's a really rough thing with no coding standards, the result of a
+bunch of fiddling. You'd probably do better to just rewrite it
+rather than hack on it (I mean, when I sit down to work on it, I'll
+probably rewrite it).
+
+## What is it?
 
 I started messing around with DPaintIV recently and making
 animations, in order to do the illustrations for this essay:
