@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+  <head>
+    <title>hi, world!</title>
+    <style type="text/css">
+@font-face {
+  font-family: 'Vampiro One';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Vampiro One'), local('VampiroOne-Regular'), url(http://themes.googleusercontent.com/static/fonts/vampiroone/v3/Ho2Xld8UbQyBA8XLxF1_NYbN6UDyHWBl620a-IRfuBk.woff) format('woff');
+}
+
+      body {
+      background:black;
+      }
+      table {border:1px solid #ccc;background:white;z-index:10000;position:fixed;top:0;left:0;}
+      input {width:50px;
+      text-align:center;
+      font-weight:bold;}
+
+      #box {
+      width:400px;
+      color:#fff;
+      height:200px;
+      font-weight:bold;
+        margin-left:300px;
+      /*        box-shadow: 0px 0px 4px 4px rgba(13, 15, 53, 0.71);
+      */
+        transform: translate3d(0px,0px,0px) scale3d(1,1,1) rotate3d(0,0,0,0deg);
+        font-family:Vampiro One;
+        font-size:400%;
+        text-transform:uppercase;
+        position: fixed;
+        text-shadow: 0px 0p 0px white;      
+      	-webkit-animation-name: ani1;
+	-webkit-animation-duration: 2s;
+	-webkit-animation-delay: 0.00s;
+	-webkit-animation-iteration-count: 1;
+        -webkit-animation-direction: reverse;
+        -webkit-animation-fill-mode: forwards;
+      }
+
+      @-webkit-keyframes ani1 {
+        0% {
+      transform: translate3d(0px,0px,0px) scale3d(1,1,1) rotate3d(0,0,0,0deg);
+        }
+      }
+
+      #results {width:200px;}
+    </style>
+  </head>
+  <body>
+    <!--script type="text/javascript" src="main.js"></script-->
+    <div id="box">THREE WORDS ONLY</div>
+    <form id="test">
+      <table>
+      <tr>
+	<th>Dur.</th>
+	<td><input name="duration" type="number" value="10"></td>
+	<th>Fade</th>
+	<td><input name="fade" type="range" value="0"></td>
+      </tr>
+      <tr>
+	<th>Fill screen</th>
+	<td><input type="checkbox" value="0"></td>
+	<th>Repeat</th>
+	<td><input type="checkbox" value="0"></td>	
+      </tr>      
+
+      <tr><th></th><th>X</th><th>Y</th><th>Z</th></tr>
+      
+      <tr>
+	<th>Scale</th>
+	<td>
+	  <input name="scaleX" type="range" value="50">
+	</td>
+	<td>
+	  <input name="scaleY" type="range" value="50">
+	</td>
+	<td>
+	  <input name="scaleZ" type="range" value="50">
+	</td>
+      </tr>
+
+
+      <tr>
+	<th>Move</th>
+	<td>
+	  <input name="moveX" type="range" value="0">
+	</td>
+	<td>
+	  <input name="moveY" type="range" value="0">
+	</td>
+	<td>
+	  <input name="moveZ" type="range" value="0">
+	</td>
+      </tr>
+
+      <tr>
+	<th>Rotate</th>
+	<td>
+	  <input name="rotateX" type="range" value="50">
+	</td>
+	<td>
+	  <input name="rotateY" type="range" value="50">
+	</td>
+	<td>
+	  <input name="rotateZ" type="range" value="50">
+	</td>
+      </tr>      
+      <tr>
+	<th>Rotate Deg</th>
+	<td colspan="3">
+	  <input name="degree" type="range" value="0">
+	</td>
+      </tr>
+
+      <tr>
+	<td colspan="3" id="results">
+	  -
+	</td>
+      </tr>            
+      </table>
+      </form>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+    <script type="text/javascript">
+      /* Humans wherever we put things, we associate meaning with
+      them and meanings in a wide and strange variety. */
+
+	  // search the CSSOM for a specific -webkit-keyframe rule
+	  function findKeyframesRule(rule)
+	  {
+              // gather all stylesheets into an array
+              var ss = document.styleSheets;
+              
+              // loop through the stylesheets
+              for (var i = 0; i < ss.length; ++i) {
+		  
+		  // loop through all the rules
+		  for (var j = 0; j < ss[i].cssRules.length; ++j) {
+                      
+                      // find the -webkit-keyframe rule whose name
+                      // matches our passed over parameter and
+                      // return that rule
+				      if (ss[i].cssRules[j].type == window.CSSRule.WEBKIT_KEYFRAMES_RULE && ss[i].cssRules[j].name == rule) {
+
+				      return ss[i].cssRules[j];
+				      }
+		  }
+              }
+              // rule not found
+              return null;
+	  }
+	  
+	  // remove old keyframes and add new ones
+	  function change(anim, transform)
+	  {
+              // find our -webkit-keyframe rule
+              var keyframes = findKeyframesRule(anim);
+              console.log('Transform: ' + transform, '; Keyframes: ' + keyframes);
+				      // remove the existing 0% and 100% rules
+
+				      try { keyframes.deleteRule("0%");
+				            keyframes.insertRule("0% { "+transform+"}");				      
+				      } catch (e) {};
+
+              // assign the animation to our element (which will cause the animation to run)
+              document.getElementById('box').style.webkitAnimationName = anim;
+	  }
+	  
+	  // begin the new animation process
+	  function startChange(anim, transform)
+	  {
+              // remove the old animation from our object
+              document.getElementById('box').style.webkitAnimationName = "none";
+              
+              // call the change method, which will update the keyframe animation
+              setTimeout(function(){change(anim,transform);}, 0);
+	  }
+	  
+	  
+	  function formToCSS(fD) {
+	      return 'translate3d('
+		  + fD.moveX * 5 + 'px, '
+		  + fD.moveY * 5 + 'px, '
+		  + fD.moveZ * 5 + 'px)'
+		  + ' scale3d('
+		  + fD.scaleX / 50 + ', '
+		  + fD.scaleY / 50 + ', '
+		  + fD.scaleZ / 50 + ')'
+		  + ' rotate3d('
+		  + (fD.rotateX - 50) / 50 + ', '
+		  + (fD.rotateY - 50) / 50 + ', '
+		  + (fD.rotateZ - 50) / 50 + ', '
+		  + fD.degree * 3.6 * 2 + 'deg)';
+	  }
+	  var x = {};
+	  
+	  $('#test').on('input', function(theChange) {
+              $(this).find('input').map(function(el) {
+				      x[$(this)[0].name]=$(this)[0].value;
+				      var c = formToCSS(x);
+				      var full = "-webkit-transform: " + c + ";color:white; text-shadow: 0 0 5px #fff,0 0 20px #fff,0 0 15px #fff,0 0 20px #ff00de,0 0 35px #ff00de,0 0 40px #ff00de,0 0 50px #ff00de,0 0 75px #ff00de;"; 
+		  $('#results').html(c);
+	startChange('ani1',full);
+	      });
+	  });
+	  </script>
+  </body>
+</html>
