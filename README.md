@@ -1,9 +1,13 @@
 # anim
 
+You can see this in operation at:
+
+  http://ftrain.github.io/anim/
+
 I started messing around with DPaintIV recently and making
 animations, in order to do the illustrations for this essay:
 
-https://medium.com/message/networks-without-networks-7644933a3100
+  https://medium.com/message/networks-without-networks-7644933a3100
 
 And I decided to see if I could get CSS to create simple repeating
 animations using DOM elements.
