@@ -1,5 +1,5 @@
 <!doctype html>
-[1;3B<html>
+<html>
   <head>
     <title>hi, world!</title>
     <style type="text/css">
@@ -32,15 +32,15 @@
         text-transform:uppercase;
         position: fixed;
         text-shadow: 0px 0p 0px white;      
-      	-webkit-animation-name: ani1;
-	-webkit-animation-duration: 2s;
-	-webkit-animation-delay: 0.00s;
-	-webkit-animation-iteration-count: 1;
-        -webkit-animation-direction: reverse;
-        -webkit-animation-fill-mode: forwards;
+      	animation-name: ani1;
+	animation-duration: 2s;
+	animation-delay: 0.00s;
+	animation-iteration-count: 1;
+        animation-direction: reverse;
+        animation-fill-mode: forwards;
       }
 
-      @-webkit-keyframes ani1 {
+      @keyframes ani1 {
         0% {
       transform: translate3d(0px,0px,0px) scale3d(1,1,1) rotate3d(0,0,0,0deg);
         }
@@ -138,7 +138,7 @@
       /* Humans wherever we put things, we associate meaning with
       them and meanings in a wide and strange variety. */
 
-	  // search the CSSOM for a specific -webkit-keyframe rule
+	  // search the CSSOM for a specific keyframe rule
 	  function findKeyframesRule(rule)
 	  {
               // gather all stylesheets into an array
@@ -150,10 +150,10 @@
 		  // loop through all the rules
 		  for (var j = 0; j < ss[i].cssRules.length; ++j) {
                       
-                      // find the -webkit-keyframe rule whose name
+                      // find the keyframe rule whose name
                       // matches our passed over parameter and
                       // return that rule
-				      if (ss[i].cssRules[j].type == window.CSSRule.WEBKIT_KEYFRAMES_RULE && ss[i].cssRules[j].name == rule) {
+				      if (ss[i].cssRules[j].type == window.CSSRule.KEYFRAMES_RULE && ss[i].cssRules[j].name == rule) {
 
 				      return ss[i].cssRules[j];
 				      }
@@ -166,7 +166,7 @@
 	  // remove old keyframes and add new ones
 	  function change(anim, transform)
 	  {
-              // find our -webkit-keyframe rule
+              // find our keyframe rule
               var keyframes = findKeyframesRule(anim);
               console.log('Transform: ' + transform, '; Keyframes: ' + keyframes);
 				      // remove the existing 0% and 100% rules
@@ -176,14 +176,14 @@
 				      } catch (e) {};
 
               // assign the animation to our element (which will cause the animation to run)
-              document.getElementById('box').style.webkitAnimationName = anim;
+              document.getElementById('box').style.animationName = anim;
 	  }
 	  
 	  // begin the new animation process
 	  function startChange(anim, transform)
 	  {
               // remove the old animation from our object
-              document.getElementById('box').style.webkitAnimationName = "none";
+              document.getElementById('box').style.animationName = "none";
               
               // call the change method, which will update the keyframe animation
               setTimeout(function(){change(anim,transform);}, 0);
@@ -211,7 +211,7 @@
               $(this).find('input').map(function(el) {
 				      x[$(this)[0].name]=$(this)[0].value;
 				      var c = formToCSS(x);
-				      var full = "-webkit-transform: " + c + ";color:white; text-shadow: 0 0 5px #fff,0 0 20px #fff,0 0 15px #fff,0 0 20px #ff00de,0 0 35px #ff00de,0 0 40px #ff00de,0 0 50px #ff00de,0 0 75px #ff00de;"; 
+				      var full = "transform: " + c + ";color:white; text-shadow: 0 0 5px #fff,0 0 20px #fff,0 0 15px #fff,0 0 20px #ff00de,0 0 35px #ff00de,0 0 40px #ff00de,0 0 50px #ff00de,0 0 75px #ff00de;"; 
 		  $('#results').html(c);
 	startChange('ani1',full);
 	      });
